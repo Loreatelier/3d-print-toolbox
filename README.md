@@ -2,7 +2,7 @@
 
 > Curated tools for **everything 3D printing** — slicers, CAD, model libraries, no-CAD generators, scanning, mesh repair, printer control, filament and calibration.
 
-🌐 **Browse with search and filters:** the GitHub Pages site of this repo.
+🌐 **Browse with search and filters:** https://syntaxslicer.github.io/3d-print-toolbox/
 
 **136 tools** · Legend: 🆓 free · 💶 freemium/paid · 🔓 open source · 🌐 runs in browser · 🪄 no CAD needed · 🧑‍💻 needs coding · 🔑 login required
 
