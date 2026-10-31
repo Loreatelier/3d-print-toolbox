@@ -2,9 +2,9 @@
 
 > Curated tools for **everything 3D printing** — slicers, CAD, model libraries, no-CAD generators, scanning, mesh repair, printer control, filament and calibration.
 
-🌐 **Browse with search and filters:** the GitHub Pages site of this repo: https://syntaxslicer.github.io/3d-print-toolbox/
+🌐 **Browse with search and filters:** the GitHub Pages site of this repo.
 
-**135 tools** · Legend: 🆓 free · 💶 freemium/paid · 🔓 open source · 🌐 runs in browser · 🪄 no CAD needed · 🧑‍💻 needs coding · 🔑 login required
+**136 tools** · Legend: 🆓 free · 💶 freemium/paid · 🔓 open source · 🌐 runs in browser · 🪄 no CAD needed · 🧑‍💻 needs coding · 🔑 login required
 
 ## Contents
 
@@ -157,6 +157,7 @@
 - **[FreeCAD Reverse Engineering Workbench](https://wiki.freecad.org/Reverse_Engineering_Workbench)** 🆓 🔓 — Free scan-to-CAD toolkit in FreeCAD: fit planes, cylinders and B-spline surfaces to meshes or point clouds, then model on top. Closest free thing to Geomagic Design X. `STEP · STL`
 - **[Detessellate](https://github.com/DesignWeaver3D/Detessellate)** 🆓 🔓 — FreeCAD macro workbench for turning STL/3MF meshes back into editable solids: align, mesh-to-body, auto-generate and clean coplanar sketches, then finish in PartDesign. `STEP`
 - **[BumpMesh](https://www.bumpmesh.com/)** 🆓 🔓 🌐 🪄 — CNC Kitchen's texture tool: bakes real displacement textures (knurl, leather, wood…) onto STL/3MF/STEP models — a better fuzzy skin. Runs locally in the browser. `STL · 3MF`
+- **[ScanRuler](https://scanruler.com/)** 🆓 🌐 — CNC Kitchen's scan analysis tool: fit spheres, cylinders and planes to a 3D scan, measure it, map deviation from CAD and check wall thickness. Runs locally in the browser.
 
 ## 🖥️ Printer Control & Monitoring
 
