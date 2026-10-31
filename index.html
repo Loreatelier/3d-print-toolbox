@@ -1,0 +1,225 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>3D Print Toolbox</title>
+<meta name="description" content="Curated tools for 3D printing: slicers, CAD, model libraries, no-CAD generators, scanning, mesh repair, printer control, filament and calibration.">
+<meta property="og:title" content="3D Print Toolbox">
+<meta property="og:description" content="Curated tools for everything 3D printing.">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect x='4' y='14' width='24' height='4' rx='1' fill='%23e8590c'/><rect x='7' y='9' width='18' height='4' rx='1' fill='%23e8590c' opacity='.7'/><rect x='10' y='4' width='12' height='4' rx='1' fill='%23e8590c' opacity='.45'/><rect x='2' y='24' width='28' height='4' rx='1' fill='%23333'/></svg>">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#f6f3ee; --surface:#fffdf9; --surface-2:#efe9e0; --text:#1d1b18; --muted:#6b645a;
+  --line:#e2dbcf; --accent:#e8590c; --accent-ink:#fff; --accent-soft:#fde3d3;
+  --free:#2b8a3e; --free-soft:#d9f2df; --freemium:#9a6700; --freemium-soft:#fbefc8;
+  --shadow:0 1px 2px rgba(40,30,20,.06),0 4px 16px rgba(40,30,20,.05);
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#141311; --surface:#1d1b18; --surface-2:#26231f; --text:#f1ece4; --muted:#a39a8d;
+    --line:#332f29; --accent:#ff7a33; --accent-ink:#1a0d04; --accent-soft:#3a2416;
+    --free:#69db7c; --free-soft:#1b3322; --freemium:#ffd43b; --freemium-soft:#3a3115;
+    --shadow:0 1px 2px rgba(0,0,0,.4); color-scheme:dark;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#141311; --surface:#1d1b18; --surface-2:#26231f; --text:#f1ece4; --muted:#a39a8d;
+  --line:#332f29; --accent:#ff7a33; --accent-ink:#1a0d04; --accent-soft:#3a2416;
+  --free:#69db7c; --free-soft:#1b3322; --freemium:#ffd43b; --freemium-soft:#3a3115;
+  --shadow:0 1px 2px rgba(0,0,0,.4); color-scheme:dark;
+}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--bg);color:var(--text);font:15px/1.55 Inter,system-ui,sans-serif}
+a{color:inherit}
+.wrap{max-width:1180px;margin:0 auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+header{padding-block:56px 28px;position:relative;overflow:hidden}
+.layers{position:absolute;right:-40px;top:24px;width:340px;opacity:.9;pointer-events:none}
+.layers div{height:14px;border-radius:3px;background:var(--accent);margin:6px 0 6px auto}
+.kicker{font:500 12px/1 "JetBrains Mono",monospace;letter-spacing:.08em;text-transform:uppercase;color:var(--accent)}
+h1{font:700 clamp(36px,6vw,64px)/1.02 "Space Grotesk",sans-serif;margin:14px 0 14px;letter-spacing:-.02em;max-width:12ch}
+.lead{color:var(--muted);font-size:17px;max-width:56ch;margin:0}
+.meta{display:flex;gap:18px;flex-wrap:wrap;margin-top:22px;font:13px "JetBrains Mono",monospace;color:var(--muted)}
+.meta b{color:var(--text)}
+.toolbar{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;background:color-mix(in srgb,var(--bg) 88%,transparent);backdrop-filter:blur(8px);border-bottom:1px solid var(--line);padding:12px 0}
+.row{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+.search{flex:1 1 260px;display:flex;align-items:center;gap:8px;background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:0 12px;height:42px}
+.search input{border:0;outline:0;background:none;color:var(--text);font:inherit;flex:1;min-width:0}
+.search:focus-within{border-color:var(--accent)}
+.toggle{display:inline-flex;align-items:center;gap:6px;height:42px;padding:0 12px;border:1px solid var(--line);border-radius:10px;background:var(--surface);cursor:pointer;font-size:13px;user-select:none;color:var(--muted)}
+.toggle[aria-pressed="true"]{border-color:var(--accent);color:var(--text);background:var(--accent-soft)}
+.theme{width:42px;justify-content:center;padding:0}
+.chips{display:flex;gap:8px;overflow-x:auto;padding:10px 0 2px;scrollbar-width:none}
+.chips::-webkit-scrollbar{display:none}
+.chip{flex:none;border:1px solid var(--line);background:var(--surface);color:var(--text);border-radius:999px;padding:6px 12px;font:500 13px Inter,sans-serif;cursor:pointer;white-space:nowrap}
+.chip .n{color:var(--muted);font:12px "JetBrains Mono",monospace;margin-left:4px}
+.chip[aria-pressed="true"]{background:var(--text);color:var(--bg);border-color:var(--text)}
+.chip[aria-pressed="true"] .n{color:inherit;opacity:.7}
+main{padding-block:24px 64px}
+section.cat{margin-bottom:36px}
+section.cat h2{font:700 20px "Space Grotesk",sans-serif;margin:0 0 14px;display:flex;align-items:center;gap:10px}
+section.cat h2 small{font:12px "JetBrains Mono",monospace;color:var(--muted);font-weight:400}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(270px,1fr));gap:14px}
+.card{display:flex;flex-direction:column;gap:10px;background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:16px;text-decoration:none;box-shadow:var(--shadow);transition:transform .15s,border-color .15s}
+.card:hover,.card:focus-visible{transform:translateY(-2px);border-color:var(--accent);outline:none}
+.card h3{margin:0;font:600 16px Inter,sans-serif;display:flex;justify-content:space-between;gap:8px}
+.card h3 .arrow{color:var(--muted);transition:color .15s}
+.card:hover h3 .arrow{color:var(--accent)}
+.host{font:12px "JetBrains Mono",monospace;color:var(--muted);margin-top:-6px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.card p{margin:0;color:var(--muted);font-size:14px;flex:1}
+.badges{display:flex;gap:6px;flex-wrap:wrap}
+.b{font:500 11px "JetBrains Mono",monospace;padding:3px 7px;border-radius:6px;background:var(--surface-2);color:var(--muted)}
+.b.free{background:var(--free-soft);color:var(--free)}
+.b.freemium{background:var(--freemium-soft);color:var(--freemium)}
+.b.oss{background:var(--accent-soft);color:var(--accent)}
+.b.paid{background:var(--surface-2);color:var(--text)}
+.b.nocad{background:var(--text);color:var(--bg)}
+.b.plat{background:none;border:1px solid var(--line)}
+.b.code{background:none;border:1px dashed var(--muted);color:var(--text)}
+.empty{text-align:center;color:var(--muted);padding:60px 0}
+footer{border-top:1px solid var(--line);padding-block:28px 40px;color:var(--muted);font-size:14px}
+footer a{color:var(--accent)}
+.cta{display:inline-flex;align-items:center;gap:8px;margin-top:20px;background:var(--accent);color:var(--accent-ink);padding:10px 16px;border-radius:10px;text-decoration:none;font-weight:600}
+@media (max-width:640px){.layers{display:none} header{padding-block-start:36px}}
+</style>
+</head>
+<body>
+<header class="wrap">
+  <div class="layers" aria-hidden="true">
+    <div style="width:40%;opacity:.25"></div><div style="width:55%;opacity:.4"></div><div style="width:70%;opacity:.6"></div><div style="width:85%;opacity:.8"></div><div style="width:100%"></div>
+  </div>
+  <div class="kicker">Curated · free-first · maker-tested</div>
+  <h1>3D Print Toolbox</h1>
+  <p class="lead">Everything that makes 3D printing easier — slicers, CAD, model libraries, no-CAD generators, scanning, mesh repair, printer control, filament and calibration. In one searchable list.</p>
+  <div class="meta"><span><b id="count">–</b> tools</span><span><b id="catcount">–</b> categories</span><a href="https://github.com/OWNER/REPO/blob/main/CONTRIBUTING.md" id="suggest">+ suggest a tool</a></div>
+</header>
+
+<div class="toolbar">
+  <div class="wrap">
+    <div class="row">
+      <label class="search">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
+        <input id="q" type="search" placeholder="Search tools, tags, formats… (press /)" autocomplete="off">
+      </label>
+      <button class="toggle" id="fFree" aria-pressed="false" title="Only fully free tools">Free only</button>
+      <button class="toggle" id="fOss" aria-pressed="false" title="Only open-source tools">Open source</button>
+      <button class="toggle" id="fWeb" aria-pressed="false" title="Only tools that run in the browser">In browser</button>
+      <button class="toggle" id="fNoCad" aria-pressed="false" title="Get a printable file without modelling">No CAD needed</button>
+      <button class="toggle" id="fNoCode" aria-pressed="false" title="Hide tools that need programming">No coding</button>
+      <button class="toggle" id="fNoAcc" aria-pressed="false" title="Hide tools that need an account">No login</button>
+      <button class="toggle theme" id="theme" aria-label="Toggle dark mode"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 3a9 9 0 0 0 0 18z" fill="currentColor"/></svg></button>
+    </div>
+    <div class="chips" id="chips" role="toolbar" aria-label="Categories"></div>
+  </div>
+</div>
+
+<main class="wrap" id="list" aria-live="polite"></main>
+
+<footer class="wrap">
+  <p>Know a tool every maker should have? Open a pull request — edit <code>tools.json</code>, the README is generated from it.</p>
+  <p>Listings are curated by hand; pricing and features change, so check each site. Not affiliated with any listed tool.</p>
+  <a class="cta" id="repo" href="https://github.com/OWNER/REPO">★ View on GitHub</a>
+</footer>
+
+<script>
+(() => {
+  const $ = s => document.querySelector(s);
+  const state = { q: "", cat: "all", free: false, oss: false, noacc: false, web: false, nocad: false, nocode: false };
+  let data = { categories: [], tools: [] };
+
+  // Theme toggle (stored per viewer; storage may be unavailable)
+  const root = document.documentElement;
+  try { const t = localStorage.getItem("theme"); if (t) root.dataset.theme = t; } catch (e) {}
+  $("#theme").onclick = () => {
+    const dark = root.dataset.theme ? root.dataset.theme === "dark" : matchMedia("(prefers-color-scheme: dark)").matches;
+    root.dataset.theme = dark ? "light" : "dark";
+    try { localStorage.setItem("theme", root.dataset.theme); } catch (e) {}
+  };
+
+  // Point GitHub links at this repo automatically when hosted on <user>.github.io/<repo>/
+  const m = location.hostname.match(/^([^.]+)\.github\.io$/);
+  if (m) {
+    const repo = location.pathname.split("/").filter(Boolean)[0] || `${m[1]}.github.io`;
+    const base = `https://github.com/${m[1]}/${repo}`;
+    $("#repo").href = base; $("#suggest").href = `${base}/blob/main/CONTRIBUTING.md`;
+  }
+
+  const esc = s => String(s).replace(/[&<>"']/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
+  const host = u => { try { return new URL(u).hostname.replace(/^www\./, "") + new URL(u).pathname.replace(/\/$/, ""); } catch (e) { return u; } };
+
+  function matches(t) {
+    if (state.cat !== "all" && t.category !== state.cat) return false;
+    if (state.free && t.pricing !== "free") return false;
+    if (state.oss && !t.opensource) return false;
+    if (state.noacc && t.account) return false;
+    if (state.web && !(t.platforms || []).includes("web")) return false;
+    if (state.nocad && !(t.tags || []).includes("no-cad")) return false;
+    if (state.nocode && t.code) return false;
+    if (!state.q) return true;
+    const hay = [t.name, t.description, t.url, ...(t.tags || []), ...(t.formats || [])].join(" ").toLowerCase();
+    return state.q.split(/\s+/).every(w => hay.includes(w));
+  }
+
+  function card(t) {
+    const badges = [
+      `<span class="b ${t.pricing}">${t.pricing}</span>`,
+      (t.tags || []).includes("no-cad") ? `<span class="b nocad">no CAD</span>` : "",
+      t.code ? `<span class="b code" title="Needs programming (OpenSCAD or Python)">&lt;/&gt; coding</span>` : "",
+      t.opensource ? `<span class="b oss">open source</span>` : "",
+      ...(t.platforms || []).map(p => `<span class="b plat">${esc(p)}</span>`),
+      t.account ? `<span class="b">login</span>` : "",
+      ...(t.formats || []).map(f => `<span class="b">${esc(f)}</span>`)
+    ].join("");
+    return `<a class="card" href="${esc(t.url)}" target="_blank" rel="noopener">
+      <h3>${esc(t.name)}<span class="arrow" aria-hidden="true">↗</span></h3>
+      <div class="host">${esc(host(t.url))}</div>
+      <p>${esc(t.description)}</p>
+      <div class="badges">${badges}</div></a>`;
+  }
+
+  function renderChips() {
+    const counts = {};
+    data.tools.forEach(t => counts[t.category] = (counts[t.category] || 0) + 1);
+    const all = [{ id: "all", name: "All", icon: "" }, ...data.categories];
+    $("#chips").innerHTML = all.map(c =>
+      `<button class="chip" data-cat="${c.id}" aria-pressed="${state.cat === c.id}">${c.icon} ${esc(c.name)}<span class="n">${c.id === "all" ? data.tools.length : counts[c.id] || 0}</span></button>`
+    ).join("");
+  }
+
+  function render() {
+    const shown = data.tools.filter(matches);
+    const html = data.categories.map(c => {
+      const items = shown.filter(t => t.category === c.id);
+      if (!items.length) return "";
+      return `<section class="cat" id="${c.id}"><h2>${c.icon} ${esc(c.name)} <small>${items.length}</small></h2><div class="grid">${items.map(card).join("")}</div></section>`;
+    }).join("");
+    $("#list").innerHTML = html || `<div class="empty">No tools match. Try fewer filters — or <a href="${$("#suggest").href}">suggest one</a>.</div>`;
+    document.querySelectorAll(".chip").forEach(b => b.setAttribute("aria-pressed", b.dataset.cat === state.cat));
+  }
+
+  $("#q").addEventListener("input", e => { state.q = e.target.value.trim().toLowerCase(); render(); });
+  $("#chips").addEventListener("click", e => {
+    const b = e.target.closest(".chip"); if (!b) return;
+    state.cat = b.dataset.cat;
+    history.replaceState(null, "", state.cat === "all" ? location.pathname : "#" + state.cat);
+    render();
+  });
+  [["#fFree", "free"], ["#fOss", "oss"], ["#fWeb", "web"], ["#fNoCad", "nocad"], ["#fNoCode", "nocode"], ["#fNoAcc", "noacc"]].forEach(([id, k]) =>
+    $(id).addEventListener("click", e => { state[k] = !state[k]; e.currentTarget.setAttribute("aria-pressed", state[k]); render(); }));
+  document.addEventListener("keydown", e => { if (e.key === "/" && document.activeElement !== $("#q")) { e.preventDefault(); $("#q").focus(); } });
+
+  fetch("tools.json").then(r => r.json()).then(d => {
+    data = d;
+    const h = location.hash.slice(1);
+    if (data.categories.some(c => c.id === h)) state.cat = h;
+    $("#count").textContent = data.tools.length;
+    $("#catcount").textContent = data.categories.length;
+    renderChips(); render();
+  }).catch(() => { $("#list").innerHTML = `<div class="empty">Couldn't load tools.json. Serve the folder over HTTP (e.g. <code>python -m http.server</code>).</div>`; });
+})();
+</script>
+</body>
+</html>
