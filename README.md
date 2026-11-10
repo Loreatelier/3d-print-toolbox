@@ -4,7 +4,7 @@
 
 🌐 **Browse with search and filters:** https://syntaxslicer.github.io/3d-print-toolbox/
 
-**136 tools** · Legend: 🆓 free · 💶 freemium/paid · 🔓 open source · 🌐 runs in browser · 🪄 no CAD needed · 🧑‍💻 needs coding · 🔑 login required
+**137 tools** · Legend: 🆓 free · 💶 freemium/paid · 🔓 open source · 🌐 runs in browser · 🪄 no CAD needed · 🧑‍💻 needs coding · 🔑 login required
 
 ## Contents
 
@@ -211,6 +211,7 @@
 - **[CNC Kitchen](https://www.cnckitchen.com/)** 🆓 🌐 — Data-driven tests of part strength, infill, annealing, inserts and materials.
 - **[All3DP](https://all3dp.com/)** 🆓 🌐 — Large magazine with guides, software round-ups and printer reviews.
 - **[r/3Dprinting](https://www.reddit.com/r/3Dprinting/)** 🆓 🌐 — Big, active community for help with failed prints and printer questions.
+- **[SolidCraft CAD](https://solidcraftcad.com/)** 🆓 🌐 — Guide to SolidCraft, an open-source parametric CAD app written in Rust: running it in the browser or on desktop, setting up its MCP server, and exporting STL or 3MF for printing.
 
 ## 🧭 Directories & Hubs
 
